@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUTRI LAUNDRY</title>
+  <!-- Versi 3: pengiriman email memakai form multipart agar bukti pembayaran terkirim sebagai lampiran. -->
+  <meta name="description" content="PUTRI LAUNDRY - Timpik Susukan Semarang. Laundry karpet, selimut, dan pakaian." />
+  <style>
+    :root {
+      --pink: #ec4899;
+      --pink-dark: #be185d;
+      --purple: #7c3aed;
+      --blue: #2563eb;
+      --slate: #0f172a;
+      --muted: #64748b;
+      --soft: #fff1f7;
+      --card: rgba(255, 255, 255, 0.82);
+      --border: rgba(236, 72, 153, 0.18);
+      --shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--slate);
+      background:
+        radial-gradient(circle at top left, rgba(236, 72, 153, 0.26), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.22), transparent 34%),
+        linear-gradient(135deg, #fff7fb 0%, #ffffff 45%, #f5f3ff 100%);
+    }
+
+    .page {
+      width: min(1160px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 36px;
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      filter: blur(28px);
+      opacity: 0.42;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      right: -90px;
+      top: -110px;
+      background: #f9a8d4;
+    }
+
+    .hero::after {
+      left: -110px;
+      bottom: -110px;
+      background: #c4b5fd;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      padding: 34px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: var(--pink-dark);
+      background: #fce7f3;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 0.95;
+      letter-spacing: -3px;
+      font-weight: 1000;
+      color: #020617;
+    }
+
+    h1 span {
+      color: var(--pink);
+    }
+
+    .address {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 18px;
+      color: #475569;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .address b {
+      color: #0f172a;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .service-card {
+      cursor: pointer;
+      border: 1px solid #f1d5e4;
+      border-radius: 24px;
+      padding: 18px;
+      background: white;
+      box-shadow: 0 10px 32px rgba(15, 23, 42, 0.06);
+      transition: 180ms ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    .service-card.active {
+      border-color: #f472b6;
+      background: #fff1f7;
+      outline: 4px solid rgba(244, 114, 182, 0.16);
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #fce7f3, #ede9fe);
+      font-size: 26px;
+    }
+
+    .service-card h3 {
+      margin-top: 14px;
+      font-size: 16px;
+    }
+
+    .service-card p {
+      margin-top: 6px;
+      color: var(--pink-dark);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .panel {
+      border-radius: var(--radius);
+      padding: 22px;
+      background: white;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.10);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+
+    .dark-panel {
+      margin-top: 18px;
+      color: white;
+      background: #0f172a;
+      border: 0;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 1000;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+      color: #cbd5e1;
+    }
+
+    .light-label {
+      color: #64748b;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      margin-top: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 14px 15px;
+      background: rgba(255,255,255,0.09);
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #94a3b8;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(244, 114, 182, 0.75);
+      box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.18);
+    }
+
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .total-card {
+      background: white;
+    }
+
+    .total-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .total-top small {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .total-price {
+      margin-top: 4px;
+      font-size: clamp(34px, 5vw, 52px);
+      font-weight: 1000;
+      letter-spacing: -2px;
+      color: #020617;
+    }
+
+    .big-icon {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      border-radius: 26px;
+      background: #fce7f3;
+      font-size: 38px;
+      flex-shrink: 0;
+    }
+
+    .summary-box {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+      padding: 17px;
+      border-radius: 24px;
+      background: #f8fafc;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .summary-row strong {
+      color: #0f172a;
+      text-align: right;
+    }
+
+    .dana-card {
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #4f46e5 58%, #7c3aed);
+      border: 0;
+    }
+
+    .dana-number {
+      margin-top: 14px;
+      padding: 18px;
+      border-radius: 24px;
+      text-align: center;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .dana-number small {
+      display: block;
+      color: #dbeafe;
+      font-weight: 800;
+    }
+
+    .dana-number b {
+      display: block;
+      margin-top: 3px;
+      font-size: 30px;
+      letter-spacing: 1px;
+    }
+
+    .proof-box {
+      position: relative;
+      display: grid;
+      place-items: center;
+      gap: 8px;
+      min-height: 165px;
+      margin-top: 18px;
+      border: 2px dashed #f9a8d4;
+      border-radius: 26px;
+      background: #fff1f7;
+      text-align: center;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .proof-box input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .proof-title {
+      font-weight: 1000;
+      color: #831843;
+    }
+
+    .proof-note {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    #proofPreview {
+      max-width: 100%;
+      max-height: 185px;
+      display: none;
+      border-radius: 18px;
+      object-fit: cover;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-weight: 1000;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 180ms ease;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      box-shadow: 0 14px 34px rgba(236, 72, 153, 0.25);
+    }
+
+    .btn-secondary {
+      color: #0f172a;
+      background: #e2e8f0;
+    }
+
+    .final-summary {
+      margin-top: 18px;
+      border-radius: 24px;
+      padding: 18px;
+      background: #0f172a;
+      color: white;
+    }
+
+    .final-summary h3 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .final-summary p {
+      color: #cbd5e1;
+      line-height: 1.85;
+      font-size: 14px;
+    }
+
+    .final-summary b {
+      color: white;
+    }
+
+    .status-text {
+      margin-top: 12px;
+      min-height: 22px;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .status-text.error {
+      color: #be123c;
+      font-weight: 900;
+    }
+
+    .status-text.loading {
+      color: #7c3aed;
+      font-weight: 900;
+    }
+
+    .success-card {
+      display: none;
+      margin-top: 18px;
+      border-radius: 26px;
+      padding: 22px;
+      color: white;
+      background: linear-gradient(135deg, #16a34a, #059669);
+      box-shadow: 0 18px 45px rgba(22, 163, 74, 0.22);
+    }
+
+    .success-card.show {
+      display: block;
+      animation: popIn 260ms ease both;
+    }
+
+    .success-card h3 {
+      font-size: 23px;
+      margin-bottom: 8px;
+    }
+
+    .success-card p {
+      color: #dcfce7;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 22px;
+      }
+
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid,
+      .button-row {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form id="orderForm" action="https://formsubmit.co/pukisala9@gmail.com" method="POST" enctype="multipart/form-data" target="submitFrame">
+    <input type="hidden" name="_subject" id="fsSubject" value="Pesanan Baru PUTRI LAUNDRY" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="Kode_Order" id="fsKodeOrder" />
+    <input type="hidden" name="Nama_Pelanggan" id="fsNamaPelanggan" />
+    <input type="hidden" name="Nomor_HP" id="fsNomorHp" />
+    <input type="hidden" name="Layanan" id="fsLayanan" />
+    <input type="hidden" name="Harga_per_Kg" id="fsHarga" />
+    <input type="hidden" name="Berat" id="fsBerat" />
+    <input type="hidden" name="Total_Pembayaran" id="fsTotal" />
+    <input type="hidden" name="Nomor_DANA" id="fsDana" value="083119879961" />
+    <input type="hidden" name="Catatan" id="fsCatatan" />
+    <input type="hidden" name="Ringkasan" id="fsRingkasan" />
+  <main class="page">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="badge">✨ Bersih • Wangi • Rapi</div>
+          <h1>PUTRI <span>LAUNDRY</span></h1>
+          <div class="address">📍 <p><b>Alamat:</b> Timpik, Susukan, Semarang</p></div>
+
+          <div class="service-grid" id="serviceGrid"></div>
+
+          <div class="panel dark-panel">
+            <div class="panel-title">🧾 Form Pesanan</div>
+            <div class="form-grid">
+              <label>
+                Nama pelanggan
+                <input id="customerName" type="text" placeholder="Contoh: Budi" />
+              </label>
+              <label>
+                Nomor HP
+                <input id="customerPhone" type="tel" placeholder="Contoh: 08xxxxxxxxxx" />
+              </label>
+              <label>
+                Berat laundry / kg
+                <input id="weightInput" type="number" min="0" step="0.1" value="1" />
+              </label>
+              <label>
+                Catatan
+                <input id="noteInput" type="text" placeholder="Contoh: jangan pakai pewangi kuat" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-col">
+          <div class="panel total-card">
+            <div class="total-top">
+              <div>
+                <small>Total pembayaran</small>
+                <div class="total-price" id="totalPrice">Rp100</div>
+              </div>
+              <div class="big-icon" id="selectedIcon">👕</div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-row"><span>Layanan</span><strong id="summaryService">Laundry Pakaian</strong></div>
+              <div class="summary-row"><span>Harga</span><strong id="summaryPrice">Rp25 / kg</strong></div>
+              <div class="summary-row"><span>Berat</span><strong id="summaryWeight">1 kg</strong></div>
+            </div>
+          </div>
+
+          <div class="panel dana-card">
+            <div class="panel-title">💳 Payment DANA</div>
+            <p style="margin-top: 10px; color: #dbeafe; line-height: 1.6;">Silakan transfer sesuai total pembayaran ke nomor DANA berikut.</p>
+            <div class="dana-number">
+              <small>Nomor DANA</small>
+              <b>083119879961</b>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">📤 Bukti Pembayaran</div>
+            <label class="proof-box">
+              <img id="proofPreview" alt="Preview bukti pembayaran" />
+              <div id="proofText">
+                <div class="proof-title">Upload bukti pembayaran</div>
+                <div class="proof-note">Pilih gambar JPG, PNG, atau JPEG maksimal 10 MB</div>
+              </div>
+              <input id="proofInput" name="attachment" type="file" accept="image/png, image/jpeg, image/jpg, image/webp" />
+            </label>
+
+            <div class="button-row">
+              <button class="btn btn-primary" id="finishButton" type="submit">Selesai</button>
+              <button class="btn btn-secondary" onclick="window.print()" type="button">Cetak Struk</button>
+            </div>
+            <div class="status-text" id="submitStatus"></div>
+
+            <div class="success-card" id="successCard">
+              <h3>✅ Terima kasih telah percaya pada kami</h3>
+              <p>Pesanan kamu sudah dikirim ke admin PUTRI LAUNDRY. Bukti pembayaran akan dicek, lalu laundry segera diproses.</p>
+            </div>
+          </div>
+
+          <div class="final-summary">
+            <h3>Ringkasan Order</h3>
+            <p id="orderSummary"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">© <span id="year"></span> PUTRI LAUNDRY • Timpik, Susukan, Semarang</p>
+  </main>
+  </form>
+  <iframe name="submitFrame" id="submitFrame" style="display:none; width:0; height:0; border:0;"></iframe>
+
+  <script>
+    const services = [
+      { id: "karpet", name: "Laundry Karpet", price: 100, icon: "🧺" },
+      { id: "selimut", name: "Laundry Selimut", price: 50, icon: "🛏️" },
+      { id: "pakaian", name: "Laundry Pakaian", price: 25, icon: "👕" },
+    ];
+
+    const danaNumber = "083119879961";
+    const adminEmail = "pukisala9@gmail.com";
+    let selectedServiceId = "pakaian";
+    let proofFileName = "Belum diupload";
+    let lastOrderCode = "";
+
+    const serviceGrid = document.getElementById("serviceGrid");
+    const weightInput = document.getElementById("weightInput");
+    const customerName = document.getElementById("customerName");
+    const customerPhone = document.getElementById("customerPhone");
+    const noteInput = document.getElementById("noteInput");
+    const totalPrice = document.getElementById("totalPrice");
+    const selectedIcon = document.getElementById("selectedIcon");
+    const summaryService = document.getElementById("summaryService");
+    const summaryPrice = document.getElementById("summaryPrice");
+    const summaryWeight = document.getElementById("summaryWeight");
+    const orderSummary = document.getElementById("orderSummary");
+    const proofInput = document.getElementById("proofInput");
+    const proofPreview = document.getElementById("proofPreview");
+    const proofText = document.getElementById("proofText");
+    const finishButton = document.getElementById("finishButton");
+    const submitStatus = document.getElementById("submitStatus");
+    const successCard = document.getElementById("successCard");
+    const orderForm = document.getElementById("orderForm");
+    const fsSubject = document.getElementById("fsSubject");
+    const fsKodeOrder = document.getElementById("fsKodeOrder");
+    const fsNamaPelanggan = document.getElementById("fsNamaPelanggan");
+    const fsNomorHp = document.getElementById("fsNomorHp");
+    const fsLayanan = document.getElementById("fsLayanan");
+    const fsHarga = document.getElementById("fsHarga");
+    const fsBerat = document.getElementById("fsBerat");
+    const fsTotal = document.getElementById("fsTotal");
+    const fsCatatan = document.getElementById("fsCatatan");
+    const fsRingkasan = document.getElementById("fsRingkasan");
+
+    function formatRupiah(value) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+      }).format(value);
+    }
+
+    function selectedService() {
+      return services.find((service) => service.id === selectedServiceId);
+    }
+
+    function createOrderCode() {
+      const now = new Date();
+      const stamp = now.getFullYear().toString()
+        + String(now.getMonth() + 1).padStart(2, "0")
+        + String(now.getDate()).padStart(2, "0")
+        + "-"
+        + String(now.getHours()).padStart(2, "0")
+        + String(now.getMinutes()).padStart(2, "0")
+        + String(now.getSeconds()).padStart(2, "0");
+      return `PL-${stamp}`;
+    }
+
+    function renderServices() {
+      serviceGrid.innerHTML = services.map(service => `
+        <button class="service-card ${service.id === selectedServiceId ? "active" : ""}" onclick="chooseService('${service.id}')" type="button">
+          <div class="service-icon">${service.icon}</div>
+          <h3>${service.name}</h3>
+          <p>${formatRupiah(service.price)} / kg</p>
+        </button>
+      `).join("");
+    }
+
+    function chooseService(id) {
+      selectedServiceId = id;
+      renderServices();
+      updateOrder();
+    }
+
+    function getOrderData() {
+      const service = selectedService();
+      const weight = Number(weightInput.value) || 0;
+      const total = weight * service.price;
+      const name = customerName.value.trim();
+      const phone = customerPhone.value.trim();
+      const note = noteInput.value.trim();
+
+      return {
+        service,
+        weight,
+        total,
+        name,
+        phone,
+        note,
+        proofFile: proofInput.files && proofInput.files[0] ? proofInput.files[0] : null,
+      };
+    }
+
+    function updateOrder() {
+      const data = getOrderData();
+      const displayName = data.name || "-";
+      const displayPhone = data.phone || "-";
+      const displayNote = data.note || "-";
+
+      totalPrice.textContent = formatRupiah(data.total);
+      selectedIcon.textContent = data.service.icon;
+      summaryService.textContent = data.service.name;
+      summaryPrice.textContent = `${formatRupiah(data.service.price)} / kg`;
+      summaryWeight.textContent = `${data.weight} kg`;
+
+      orderSummary.innerHTML = `
+        Nama: <b>${displayName}</b><br>
+        Nomor HP: <b>${displayPhone}</b><br>
+        Layanan: <b>${data.service.name}</b><br>
+        Berat: <b>${data.weight} kg</b><br>
+        Total: <b>${formatRupiah(data.total)}</b><br>
+        DANA: <b>${danaNumber}</b><br>
+        Bukti bayar: <b>${proofFileName}</b><br>
+        Catatan: <b>${displayNote}</b>
+      `;
+    }
+
+    function setStatus(message, type = "") {
+      submitStatus.textContent = message;
+      submitStatus.className = `status-text ${type}`.trim();
+    }
+
+    function validateOrder(data) {
+      if (!data.name) return "Nama pelanggan wajib diisi.";
+      if (!data.phone) return "Nomor HP wajib diisi.";
+      if (data.weight <= 0) return "Berat laundry harus lebih dari 0 kg.";
+      if (!data.proofFile) return "Bukti pembayaran wajib diupload.";
+      if (data.proofFile.size > 10 * 1024 * 1024) return "Ukuran bukti pembayaran maksimal 10 MB.";
+      return "";
+    }
+
+    function submitOrder(event) {
+      const data = getOrderData();
+      const validationError = validateOrder(data);
+
+      successCard.classList.remove("show");
+
+      if (validationError) {
+        event.preventDefault();
+        setStatus(validationError, "error");
+        return;
+      }
+
+      const orderCode = createOrderCode();
+      lastOrderCode = orderCode;
+      const message = [
+        `Kode Order: ${orderCode}`,
+        `Nama: ${data.name}`,
+        `Nomor HP: ${data.phone}`,
+        `Layanan: ${data.service.name}`,
+        `Harga: ${formatRupiah(data.service.price)} / kg`,
+        `Berat: ${data.weight} kg`,
+        `Total: ${formatRupiah(data.total)}`,
+        `DANA: ${danaNumber}`,
+        `Bukti bayar: ${proofFileName}`,
+        `Catatan: ${data.note || "-"}`,
+      ].join("\n");
+
+      fsSubject.value = `Pesanan Baru PUTRI LAUNDRY - ${orderCode}`;
+      fsKodeOrder.value = orderCode;
+      fsNamaPelanggan.value = data.name;
+      fsNomorHp.value = data.phone;
+      fsLayanan.value = data.service.name;
+      fsHarga.value = `${formatRupiah(data.service.price)} / kg`;
+      fsBerat.value = `${data.weight} kg`;
+      fsTotal.value = formatRupiah(data.total);
+      fsCatatan.value = data.note || "-";
+      fsRingkasan.value = message;
+
+      finishButton.disabled = true;
+      finishButton.textContent = "Mengirim...";
+      setStatus("Sedang mengirim pesanan dan bukti pembayaran ke email admin...", "loading");
+
+      setTimeout(() => {
+        setStatus(`Pesanan ${orderCode} berhasil dikirim ke admin.`, "");
+        successCard.classList.add("show");
+        successCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        finishButton.disabled = false;
+        finishButton.textContent = "Selesai";
+      }, 1800);
+    }
+
+    proofInput.addEventListener("change", function () {
+      const file = this.files && this.files[0];
+      if (!file) return;
+
+      proofFileName = file.name;
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        proofPreview.src = event.target.result;
+        proofPreview.style.display = "block";
+        proofText.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+      updateOrder();
+    });
+
+    [weightInput, customerName, customerPhone, noteInput].forEach(input => {
+      input.addEventListener("input", updateOrder);
+    });
+
+    orderForm.addEventListener("submit", submitOrder);
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderServices();
+    updateOrder();
+  </script>
+</body>
+</html>
