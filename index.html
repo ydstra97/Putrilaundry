@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PUTRI LAUNDRY</title>
-  <!-- Versi 11: Payment DANA cepat. Tombol BAYAR SEKARANG membuka aplikasi DANA dan menyalin nomor admin. -->
+  <!-- Versi 12: Payment DANA cepat. Tombol BAYAR SEKARANG membuka pilihan aplikasi DANA, bukan halaman dana.id. -->
   <meta name="description" content="PUTRI LAUNDRY - Timpik Susukan Semarang. Laundry karpet, selimut, dan pakaian." />
   <style>
     :root {
@@ -765,9 +765,9 @@
               <small>Nomor DANA Admin PUTRI LAUNDRY</small>
               <b id="adminDanaDisplay">083119879961</b>
             </div>
-            <button class="pay-now-button" id="openDanaButton" type="button">💙 BAYAR SEKARANG<small>Buka DANA & salin nomor admin</small></button>
+            <button class="pay-now-button" id="openDanaButton" type="button">💙 BAYAR SEKARANG<small>Pilih aplikasi DANA</small></button>
             <button class="copy-dana-button" id="copyDanaButton" type="button">📋 Salin Nomor DANA Admin</button>
-            <div class="payment-hint">Setelah aplikasi DANA terbuka: pilih <b>Kirim/Transfer</b> → tempel nomor admin → masukkan nominal sesuai total → bayar → screenshot bukti → kembali ke halaman ini untuk upload bukti pembayaran.</div>
+            <div class="payment-hint">Setelah muncul pilihan aplikasi seperti di HP kamu, pilih <b>DANA</b> → buka menu kirim/transfer → tempel nomor admin → masukkan nominal sesuai total → bayar → screenshot bukti → kembali ke halaman ini untuk upload bukti pembayaran.</div>
           </div>
 
           <div class="panel">
@@ -1023,22 +1023,21 @@
     openDanaButton.addEventListener("click", async function () {
       const data = getOrderData();
       await copyDanaNumber();
-      openDanaButton.innerHTML = "✅ Nomor disalin, membuka DANA...<small>Total: " + formatRupiah(data.total) + "</small>";
+      openDanaButton.innerHTML = "✅ Nomor admin disalin<small>Pilih aplikasi DANA • Total: " + formatRupiah(data.total) + "</small>";
 
-      const fallbackDanaPage = "https://link.dana.id/";
-      const androidIntent = "intent://#Intent;scheme=dana;package=id.dana;S.browser_fallback_url=" + encodeURIComponent(fallbackDanaPage) + ";end";
+      // Membuka pilihan aplikasi DANA di Android.
+      // Sengaja TIDAK memakai fallback ke dana.id agar tidak kembali ke halaman download DANA.
+      // Nomor admin sudah disalin; setelah DANA terbuka, pelanggan tinggal tempel nomor dan bayar manual.
+      const danaChooserLink = "dana://";
 
       setTimeout(function () {
-        openDanaButton.innerHTML = "💙 BAYAR SEKARANG<small>Buka DANA & salin nomor admin</small>";
-      }, 2500);
+        openDanaButton.innerHTML = "💙 BAYAR SEKARANG<small>Pilih aplikasi DANA</small>";
+      }, 3000);
 
       if (/Android/i.test(navigator.userAgent)) {
-        window.location.href = androidIntent;
+        window.location.href = danaChooserLink;
       } else {
-        window.location.href = "dana://";
-        setTimeout(function () {
-          window.location.href = fallbackDanaPage;
-        }, 900);
+        alert("Nomor DANA admin sudah disalin: " + danaNumber + "\nSilakan buka aplikasi DANA di HP, lalu transfer sesuai total pembayaran.");
       }
     });
 
