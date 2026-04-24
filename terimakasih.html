@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terima Kasih - PUTRI LAUNDRY</title>
+  <meta name="description" content="Terima kasih telah percaya pada PUTRI LAUNDRY." />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{min-height:100vh;display:grid;place-items:center;padding:22px;color:#0f172a;background:radial-gradient(circle at top left,rgba(236,72,153,.28),transparent 36%),radial-gradient(circle at bottom right,rgba(124,58,237,.24),transparent 36%),linear-gradient(135deg,#fff7fb 0%,#fff 45%,#f5f3ff 100%)}
+    .card{width:min(650px,100%);position:relative;overflow:hidden;border-radius:36px;padding:34px 28px;text-align:center;background:rgba(255,255,255,.92);border:1px solid rgba(236,72,153,.18);box-shadow:0 24px 70px rgba(15,23,42,.16);backdrop-filter:blur(16px)}
+    .card:before,.card:after{content:"";position:absolute;width:230px;height:230px;border-radius:999px;filter:blur(28px);opacity:.35;z-index:-1}.card:before{top:-90px;right:-80px;background:#f9a8d4}.card:after{bottom:-90px;left:-80px;background:#c4b5fd}
+    .check{width:96px;height:96px;margin:0 auto 18px;display:grid;place-items:center;border-radius:30px;color:#fff;font-size:50px;background:linear-gradient(135deg,#22c55e,#059669);box-shadow:0 18px 40px rgba(22,163,74,.24);animation:pop .42s ease both}@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .badge{display:inline-flex;margin-bottom:14px;padding:9px 14px;border-radius:999px;color:#be185d;background:#fce7f3;font-weight:900;font-size:14px}
+    h1{font-size:clamp(34px,7vw,56px);line-height:1.02;letter-spacing:-2px;color:#020617}h1 span{color:#ec4899}.message{margin-top:14px;color:#475569;font-size:17px;line-height:1.75}
+    .info{margin:22px auto 0;padding:16px;border-radius:24px;background:#f8fafc;color:#64748b;line-height:1.7;font-size:15px;text-align:left}.info b{color:#0f172a}
+    .actions{display:grid;gap:12px;margin-top:22px}a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;border-radius:18px;text-decoration:none;font-weight:1000;transition:.18s ease}a:hover{transform:translateY(-2px)}.primary{color:#fff;background:linear-gradient(135deg,#ec4899,#7c3aed);box-shadow:0 14px 34px rgba(236,72,153,.24)}.secondary{color:#0f172a;background:#e2e8f0}.footer{margin-top:18px;color:#64748b;font-size:13px}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="check">✓</div>
+    <div class="badge">PUTRI LAUNDRY</div>
+    <h1>Terima kasih atas <span>kepercayaan Anda</span></h1>
+    <p class="message">Pesanan Anda sudah berhasil dikirim ke admin PUTRI LAUNDRY. Bukti pembayaran akan dicek, lalu laundry segera diproses.</p>
+    <div class="info">
+      <p><b>Status:</b> Pesanan sudah terkirim ke email admin.</p>
+      <p><b>Pembayaran:</b> DANA 083119879961</p>
+      <p><b>Alamat:</b> Timpik, Susukan, Semarang</p>
+    </div>
+    <div class="actions">
+      <a class="primary" href="./">Kembali ke halaman utama</a>
+      <a class="secondary" href="https://wa.me/6283119879961">Hubungi via WhatsApp</a>
+    </div>
+    <p class="footer">© PUTRI LAUNDRY • Bersih, Wangi, Rapi</p>
+  </main>
+</body>
+</html>

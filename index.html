@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PUTRI LAUNDRY</title>
-  <!-- Versi 4: submit normal multipart FormSubmit agar bukti pembayaran lebih aman terkirim sebagai lampiran. -->
+  <!-- Versi 7: basis dari versi yang lampiran foto masuk, ditambah redirect ke halaman terima kasih. Submit tetap normal multipart agar foto tetap terkirim. -->
   <meta name="description" content="PUTRI LAUNDRY - Timpik Susukan Semarang. Laundry karpet, selimut, dan pakaian." />
   <style>
     :root {
@@ -610,7 +610,7 @@
             <div class="status-text" id="submitStatus"></div>
 
             <div class="success-card" id="successCard">
-              <h3>✅ Terima kasih atas kepercayaan Anda</h3>
+              <h3>✅ Terima kasih telah percaya pada kami</h3>
               <p>Pesanan kamu sudah dikirim ke admin PUTRI LAUNDRY. Bukti pembayaran akan dicek, lalu laundry segera diproses.</p>
             </div>
           </div>
@@ -803,26 +803,11 @@
       fsTotal.value = formatRupiah(data.total);
       fsCatatan.value = data.note || "-";
       fsRingkasan.value = message;
-      fsNext.value = window.location.href.split("?")[0] + "?thanks=1";
+      fsNext.value = new URL("terimakasih.html", window.location.href).href;
 
       finishButton.disabled = true;
       finishButton.textContent = "Mengirim...";
-      setStatus("Sedang mengirim pesanan dan bukti pembayaran ke email admin. Jangan tutup halaman ini sampai kembali ke website PUTRI LAUNDRY.", "loading");
-    }
-
-
-    function showThanksMessageIfNeeded() {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("thanks") === "1") {
-        successCard.classList.add("show");
-        setStatus("Pesanan berhasil dikirim ke email admin PUTRI LAUNDRY.", "");
-        finishButton.disabled = false;
-        finishButton.textContent = "Selesai";
-
-        setTimeout(() => {
-          successCard.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 300);
-      }
+      setStatus("Sedang mengirim pesanan dan bukti pembayaran ke email admin. Setelah selesai, halaman akan pindah ke ucapan terima kasih.", "loading");
     }
 
     proofInput.addEventListener("change", function () {
@@ -848,7 +833,6 @@
     document.getElementById("year").textContent = new Date().getFullYear();
     renderServices();
     updateOrder();
-    showThanksMessageIfNeeded();
   </script>
 </body>
 </html>
