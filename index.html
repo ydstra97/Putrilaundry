@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PUTRI LAUNDRY</title>
+  <!-- Versi 4: submit normal multipart FormSubmit agar bukti pembayaran lebih aman terkirim sebagai lampiran. -->
   <meta name="description" content="PUTRI LAUNDRY - Timpik Susukan Semarang. Laundry karpet, selimut, dan pakaian." />
   <style>
     :root {
@@ -518,6 +519,21 @@
   </style>
 </head>
 <body>
+  <form id="orderForm" action="https://formsubmit.co/pukisala9@gmail.com" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_subject" id="fsSubject" value="Pesanan Baru PUTRI LAUNDRY" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_next" id="fsNext" />
+    <input type="hidden" name="Kode_Order" id="fsKodeOrder" />
+    <input type="hidden" name="Nama_Pelanggan" id="fsNamaPelanggan" />
+    <input type="hidden" name="Nomor_HP" id="fsNomorHp" />
+    <input type="hidden" name="Layanan" id="fsLayanan" />
+    <input type="hidden" name="Harga_per_Kg" id="fsHarga" />
+    <input type="hidden" name="Berat" id="fsBerat" />
+    <input type="hidden" name="Total_Pembayaran" id="fsTotal" />
+    <input type="hidden" name="Nomor_DANA" id="fsDana" value="083119879961" />
+    <input type="hidden" name="Catatan" id="fsCatatan" />
+    <input type="hidden" name="Ringkasan" id="fsRingkasan" />
   <main class="page">
     <section class="hero">
       <div class="hero-inner">
@@ -584,17 +600,17 @@
                 <div class="proof-title">Upload bukti pembayaran</div>
                 <div class="proof-note">Pilih gambar JPG, PNG, atau JPEG maksimal 10 MB</div>
               </div>
-              <input id="proofInput" type="file" accept="image/png, image/jpeg, image/jpg, image/webp" />
+              <input id="proofInput" name="attachment" type="file" accept="image/png, image/jpeg, image/jpg, image/webp" />
             </label>
 
             <div class="button-row">
-              <button class="btn btn-primary" id="finishButton" type="button">Selesai</button>
+              <button class="btn btn-primary" id="finishButton" type="submit">Selesai</button>
               <button class="btn btn-secondary" onclick="window.print()" type="button">Cetak Struk</button>
             </div>
             <div class="status-text" id="submitStatus"></div>
 
             <div class="success-card" id="successCard">
-              <h3>✅ Terima kasih telah percaya pada kami</h3>
+              <h3>✅ Terima kasih atas kepercayaan Anda</h3>
               <p>Pesanan kamu sudah dikirim ke admin PUTRI LAUNDRY. Bukti pembayaran akan dicek, lalu laundry segera diproses.</p>
             </div>
           </div>
@@ -609,7 +625,7 @@
 
     <p class="footer">© <span id="year"></span> PUTRI LAUNDRY • Timpik, Susukan, Semarang</p>
   </main>
-
+  </form>
   <script>
     const services = [
       { id: "karpet", name: "Laundry Karpet", price: 100, icon: "🧺" },
@@ -639,7 +655,19 @@
     const proofText = document.getElementById("proofText");
     const finishButton = document.getElementById("finishButton");
     const submitStatus = document.getElementById("submitStatus");
+    const fsNext = document.getElementById("fsNext");
     const successCard = document.getElementById("successCard");
+    const orderForm = document.getElementById("orderForm");
+    const fsSubject = document.getElementById("fsSubject");
+    const fsKodeOrder = document.getElementById("fsKodeOrder");
+    const fsNamaPelanggan = document.getElementById("fsNamaPelanggan");
+    const fsNomorHp = document.getElementById("fsNomorHp");
+    const fsLayanan = document.getElementById("fsLayanan");
+    const fsHarga = document.getElementById("fsHarga");
+    const fsBerat = document.getElementById("fsBerat");
+    const fsTotal = document.getElementById("fsTotal");
+    const fsCatatan = document.getElementById("fsCatatan");
+    const fsRingkasan = document.getElementById("fsRingkasan");
 
     function formatRupiah(value) {
       return new Intl.NumberFormat("id-ID", {
@@ -738,13 +766,14 @@
       return "";
     }
 
-    async function submitOrder() {
+    function submitOrder(event) {
       const data = getOrderData();
       const validationError = validateOrder(data);
 
       successCard.classList.remove("show");
 
       if (validationError) {
+        event.preventDefault();
         setStatus(validationError, "error");
         return;
       }
@@ -764,49 +793,35 @@
         `Catatan: ${data.note || "-"}`,
       ].join("\n");
 
-      const formData = new FormData();
-      formData.append("_subject", `Pesanan Baru PUTRI LAUNDRY - ${orderCode}`);
-      formData.append("_template", "table");
-      formData.append("_captcha", "false");
-      formData.append("Kode Order", orderCode);
-      formData.append("Nama Pelanggan", data.name);
-      formData.append("Nomor HP", data.phone);
-      formData.append("Layanan", data.service.name);
-      formData.append("Harga per Kg", formatRupiah(data.service.price));
-      formData.append("Berat", `${data.weight} kg`);
-      formData.append("Total Pembayaran", formatRupiah(data.total));
-      formData.append("Nomor DANA", danaNumber);
-      formData.append("Catatan", data.note || "-");
-      formData.append("Ringkasan", message);
-      formData.append("attachment", data.proofFile, data.proofFile.name);
+      fsSubject.value = `Pesanan Baru PUTRI LAUNDRY - ${orderCode}`;
+      fsKodeOrder.value = orderCode;
+      fsNamaPelanggan.value = data.name;
+      fsNomorHp.value = data.phone;
+      fsLayanan.value = data.service.name;
+      fsHarga.value = `${formatRupiah(data.service.price)} / kg`;
+      fsBerat.value = `${data.weight} kg`;
+      fsTotal.value = formatRupiah(data.total);
+      fsCatatan.value = data.note || "-";
+      fsRingkasan.value = message;
+      fsNext.value = window.location.href.split("?")[0] + "?thanks=1";
 
       finishButton.disabled = true;
       finishButton.textContent = "Mengirim...";
-      setStatus("Sedang mengirim pesanan ke email admin...", "loading");
+      setStatus("Sedang mengirim pesanan dan bukti pembayaran ke email admin. Jangan tutup halaman ini sampai kembali ke website PUTRI LAUNDRY.", "loading");
+    }
 
-      try {
-        const response = await fetch(`https://formsubmit.co/ajax/${adminEmail}`, {
-          method: "POST",
-          body: formData,
-          headers: {
-            "Accept": "application/json"
-          }
-        });
 
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok || result.success === false) {
-          throw new Error(result.message || "Pesanan belum berhasil dikirim.");
-        }
-
-        setStatus(`Pesanan ${orderCode} berhasil dikirim ke admin.`, "");
+    function showThanksMessageIfNeeded() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("thanks") === "1") {
         successCard.classList.add("show");
-        successCard.scrollIntoView({ behavior: "smooth", block: "center" });
-      } catch (error) {
-        setStatus("Gagal mengirim otomatis. Coba lagi, atau gunakan tombol cetak struk dan kirim manual ke admin.", "error");
-        console.error(error);
-      } finally {
+        setStatus("Pesanan berhasil dikirim ke email admin PUTRI LAUNDRY.", "");
         finishButton.disabled = false;
         finishButton.textContent = "Selesai";
+
+        setTimeout(() => {
+          successCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 300);
       }
     }
 
@@ -829,10 +844,11 @@
       input.addEventListener("input", updateOrder);
     });
 
-    finishButton.addEventListener("click", submitOrder);
+    orderForm.addEventListener("submit", submitOrder);
     document.getElementById("year").textContent = new Date().getFullYear();
     renderServices();
     updateOrder();
+    showThanksMessageIfNeeded();
   </script>
 </body>
 </html>
