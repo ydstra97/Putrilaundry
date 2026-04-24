@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PUTRI LAUNDRY</title>
-  <!-- Versi 12: Payment DANA cepat. Tombol BAYAR SEKARANG membuka pilihan aplikasi DANA, bukan halaman dana.id. -->
+  <!-- Versi 13: Payment DANA cepat. Tombol BAYAR SEKARANG memakai Android Intent langsung agar muncul pilihan aplikasi DANA. -->
   <meta name="description" content="PUTRI LAUNDRY - Timpik Susukan Semarang. Laundry karpet, selimut, dan pakaian." />
   <style>
     :root {
@@ -361,6 +361,7 @@
 
     .pay-now-button {
       width: 100%;
+      display: block;
       margin-top: 14px;
       border: 0;
       border-radius: 20px;
@@ -371,6 +372,8 @@
       font-size: 15px;
       letter-spacing: .2px;
       cursor: pointer;
+      text-align: center;
+      text-decoration: none;
       box-shadow: 0 16px 34px rgba(15, 23, 42, 0.16);
       transition: 180ms ease;
     }
@@ -765,7 +768,7 @@
               <small>Nomor DANA Admin PUTRI LAUNDRY</small>
               <b id="adminDanaDisplay">083119879961</b>
             </div>
-            <button class="pay-now-button" id="openDanaButton" type="button">💙 BAYAR SEKARANG<small>Pilih aplikasi DANA</small></button>
+            <a class="pay-now-button" id="openDanaButton" href="intent://open/#Intent;scheme=dana;package=id.dana;end">💙 BAYAR SEKARANG<small>Pilih aplikasi DANA</small></a>
             <button class="copy-dana-button" id="copyDanaButton" type="button">📋 Salin Nomor DANA Admin</button>
             <div class="payment-hint">Setelah muncul pilihan aplikasi seperti di HP kamu, pilih <b>DANA</b> → buka menu kirim/transfer → tempel nomor admin → masukkan nominal sesuai total → bayar → screenshot bukti → kembali ke halaman ini untuk upload bukti pembayaran.</div>
           </div>
@@ -1011,38 +1014,45 @@
       input.addEventListener("input", updateOrder);
     });
 
-    async function copyDanaNumber() {
+    function copyDanaNumberSilent() {
+      // Dibuat tanpa await supaya klik BAYAR SEKARANG tetap dianggap klik langsung oleh Android/Chrome.
       try {
-        await navigator.clipboard.writeText(danaNumber);
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(danaNumber).catch(function () {});
+          return true;
+        }
+      } catch (error) {}
+
+      try {
+        const tempInput = document.createElement("textarea");
+        tempInput.value = danaNumber;
+        tempInput.setAttribute("readonly", "");
+        tempInput.style.position = "fixed";
+        tempInput.style.left = "-9999px";
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
         return true;
       } catch (error) {
         return false;
       }
     }
 
-    openDanaButton.addEventListener("click", async function () {
+    openDanaButton.addEventListener("click", function () {
       const data = getOrderData();
-      await copyDanaNumber();
+      copyDanaNumberSilent();
       openDanaButton.innerHTML = "✅ Nomor admin disalin<small>Pilih aplikasi DANA • Total: " + formatRupiah(data.total) + "</small>";
-
-      // Membuka pilihan aplikasi DANA di Android.
-      // Sengaja TIDAK memakai fallback ke dana.id agar tidak kembali ke halaman download DANA.
-      // Nomor admin sudah disalin; setelah DANA terbuka, pelanggan tinggal tempel nomor dan bayar manual.
-      const danaChooserLink = "dana://";
+      setStatus("Jika muncul pilihan aplikasi, pilih DANA. Setelah bayar, kembali ke halaman ini lalu upload bukti pembayaran.", "loading");
 
       setTimeout(function () {
         openDanaButton.innerHTML = "💙 BAYAR SEKARANG<small>Pilih aplikasi DANA</small>";
       }, 3000);
-
-      if (/Android/i.test(navigator.userAgent)) {
-        window.location.href = danaChooserLink;
-      } else {
-        alert("Nomor DANA admin sudah disalin: " + danaNumber + "\nSilakan buka aplikasi DANA di HP, lalu transfer sesuai total pembayaran.");
-      }
+      // Tidak pakai window.location setelah proses async. Link Intent ada langsung di href tombol agar Android menampilkan pilihan aplikasi.
     });
 
-    copyDanaButton.addEventListener("click", async function () {
-      const copied = await copyDanaNumber();
+    copyDanaButton.addEventListener("click", function () {
+      const copied = copyDanaNumberSilent();
       copyDanaButton.textContent = copied ? "✅ Nomor DANA berhasil disalin" : "Nomor DANA: " + danaNumber;
       setTimeout(() => {
         copyDanaButton.textContent = "📋 Salin Nomor DANA Admin";
