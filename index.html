@@ -4,594 +4,938 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PUTRI LAUNDRY</title>
-  <!-- Versi 14: Payment DANA stabil. Tombol BAYAR SEKARANG menyalin nomor admin dan mencoba membuka aplikasi DANA tanpa fallback Google Play. -->
   <meta name="description" content="PUTRI LAUNDRY - Timpik Susukan Semarang. Laundry karpet, selimut, dan pakaian." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pink: #ec4899;
-      --pink-dark: #be185d;
-      --purple: #7c3aed;
-      --blue: #2563eb;
-      --slate: #0f172a;
-      --muted: #64748b;
-      --soft: #fff1f7;
-      --card: rgba(255, 255, 255, 0.82);
-      --border: rgba(236, 72, 153, 0.18);
-      --shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
-      --radius: 28px;
+      --rose: #f43f5e;
+      --rose-dark: #be123c;
+      --rose-light: #ffe4e6;
+      --violet: #8b5cf6;
+      --violet-dark: #6d28d9;
+      --sky: #38bdf8;
+      --slate-900: #0f172a;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-500: #64748b;
+      --slate-300: #cbd5e1;
+      --slate-100: #f1f5f9;
+      --white: #ffffff;
+      --card-bg: rgba(255,255,255,0.92);
+      --radius-xl: 32px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow-card: 0 32px 80px rgba(15,23,42,0.13), 0 4px 16px rgba(15,23,42,0.07);
+      --shadow-btn: 0 12px 32px rgba(244,63,94,0.28);
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
-      color: var(--slate);
-      background:
-        radial-gradient(circle at top left, rgba(236, 72, 153, 0.26), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.22), transparent 34%),
-        linear-gradient(135deg, #fff7fb 0%, #ffffff 45%, #f5f3ff 100%);
+      color: var(--slate-900);
+      background: #fdf2f4;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 10% 0%, rgba(244,63,94,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(139,92,246,0.16) 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f43f5e' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
     .page {
-      width: min(1160px, calc(100% - 28px));
+      width: min(1200px, calc(100% - 24px));
       margin: 0 auto;
-      padding: 28px 0 42px;
+      padding: 24px 0 56px;
     }
 
+    /* ── NAV ── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      border-radius: var(--radius-xl);
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(244,63,94,0.12);
+      box-shadow: 0 8px 32px rgba(15,23,42,0.08);
+      margin-bottom: 24px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--rose), var(--violet));
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 6px 16px rgba(244,63,94,0.3);
+    }
+
+    .nav-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--slate-900);
+    }
+
+    .nav-title span { color: var(--rose); }
+
+    .nav-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--rose-light);
+      color: var(--rose-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    /* ── HERO ── */
     .hero {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 36px;
-      background: var(--card);
-      backdrop-filter: blur(16px);
-      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 20px;
+      align-items: start;
     }
 
-    .hero::before,
-    .hero::after {
+    /* ── LEFT COL ── */
+    .left-col {}
+
+    .hero-card {
+      border-radius: var(--radius-xl);
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(244,63,94,0.12);
+      box-shadow: var(--shadow-card);
+      padding: 36px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::before {
       content: "";
       position: absolute;
-      width: 260px;
-      height: 260px;
-      border-radius: 999px;
-      filter: blur(28px);
-      opacity: 0.42;
+      width: 300px;
+      height: 300px;
+      top: -120px;
+      right: -120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244,63,94,0.12), transparent 70%);
       pointer-events: none;
     }
 
-    .hero::before {
-      right: -90px;
-      top: -110px;
-      background: #f9a8d4;
-    }
-
-    .hero::after {
-      left: -110px;
-      bottom: -110px;
-      background: #c4b5fd;
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 28px;
-      padding: 34px;
-    }
-
-    .badge {
+    .tagline {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 18px;
-      padding: 9px 14px;
+      gap: 6px;
+      padding: 7px 14px;
       border-radius: 999px;
-      color: var(--pink-dark);
-      background: #fce7f3;
+      background: linear-gradient(135deg, var(--rose-light), #ede9fe);
+      color: var(--rose-dark);
+      font-size: 13px;
       font-weight: 800;
-      font-size: 14px;
+      margin-bottom: 16px;
+      letter-spacing: 0.3px;
     }
 
     h1 {
-      font-size: clamp(42px, 7vw, 76px);
-      line-height: 0.95;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 0.92;
       letter-spacing: -3px;
-      font-weight: 1000;
-      color: #020617;
+      color: var(--slate-900);
+      margin-bottom: 20px;
     }
 
-    h1 span {
-      color: var(--pink);
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--rose), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .address {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-top: 18px;
-      color: #475569;
-      font-size: 17px;
-      line-height: 1.6;
+    .location-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--slate-100);
+      color: var(--slate-700);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 28px;
     }
 
-    .address b {
-      color: #0f172a;
+    /* ── SERVICES ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--slate-500);
+      margin-bottom: 12px;
     }
 
     .service-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 28px;
+      gap: 12px;
+      margin-bottom: 28px;
     }
 
     .service-card {
       cursor: pointer;
-      border: 1px solid #f1d5e4;
-      border-radius: 24px;
-      padding: 18px;
-      background: white;
-      box-shadow: 0 10px 32px rgba(15, 23, 42, 0.06);
-      transition: 180ms ease;
+      border: 2px solid transparent;
+      border-radius: var(--radius-lg);
+      padding: 18px 14px;
+      background: var(--slate-100);
+      text-align: center;
+      transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
     }
 
     .service-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+      border-color: rgba(244,63,94,0.25);
+      background: white;
+      box-shadow: 0 12px 32px rgba(244,63,94,0.12);
     }
 
     .service-card.active {
-      border-color: #f472b6;
-      background: #fff1f7;
-      outline: 4px solid rgba(244, 114, 182, 0.16);
+      border-color: var(--rose);
+      background: white;
+      box-shadow: 0 12px 32px rgba(244,63,94,0.18), inset 0 0 0 4px rgba(244,63,94,0.06);
     }
 
-    .service-icon {
-      width: 48px;
-      height: 48px;
+    .service-card.active::after {
+      content: "✓";
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--rose);
+      color: white;
+      font-size: 11px;
+      font-weight: 900;
       display: grid;
       place-items: center;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #fce7f3, #ede9fe);
-      font-size: 26px;
     }
 
-    .service-card h3 {
-      margin-top: 14px;
-      font-size: 16px;
+    .svc-icon {
+      font-size: 30px;
+      margin-bottom: 8px;
+      display: block;
     }
 
-    .service-card p {
-      margin-top: 6px;
-      color: var(--pink-dark);
+    .svc-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 4px;
+    }
+
+    .svc-price {
+      font-size: 13px;
       font-weight: 900;
-      font-size: 14px;
+      color: var(--rose);
     }
 
-    .panel {
-      border-radius: var(--radius);
-      padding: 22px;
-      background: white;
-      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.10);
-      border: 1px solid rgba(226, 232, 240, 0.85);
+    /* ── FORM ── */
+    .form-card {
+      border-radius: var(--radius-xl);
+      background: var(--slate-900);
+      padding: 28px;
+      margin-top: 0;
     }
 
-    .dark-panel {
-      margin-top: 18px;
+    .form-card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
       color: white;
-      background: #0f172a;
-      border: 0;
-    }
-
-    .panel-title {
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 22px;
-      font-weight: 1000;
+      gap: 8px;
     }
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-top: 18px;
     }
 
-    label {
-      display: block;
-      font-size: 13px;
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+
+    .field label {
+      font-size: 11px;
       font-weight: 800;
-      color: #cbd5e1;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--slate-500);
     }
 
-    .light-label {
-      color: #64748b;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      margin-top: 8px;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 18px;
-      padding: 14px 15px;
-      background: rgba(255,255,255,0.09);
+    .field input, .field textarea {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      padding: 13px 15px;
       color: white;
       font-size: 15px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
       outline: none;
+      transition: 180ms ease;
+      width: 100%;
     }
 
-    input::placeholder,
-    textarea::placeholder {
-      color: #94a3b8;
+    .field input::placeholder { color: rgba(255,255,255,0.28); font-weight: 400; }
+
+    .field input:focus {
+      border-color: rgba(244,63,94,0.6);
+      background: rgba(244,63,94,0.08);
+      box-shadow: 0 0 0 4px rgba(244,63,94,0.12);
     }
 
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: rgba(244, 114, 182, 0.75);
-      box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.18);
-    }
-
+    /* ── RIGHT COL ── */
     .right-col {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
+      position: sticky;
+      top: 20px;
     }
 
+    /* ── TOTAL CARD ── */
     .total-card {
+      border-radius: var(--radius-xl);
       background: white;
+      border: 1px solid rgba(244,63,94,0.1);
+      box-shadow: var(--shadow-card);
+      padding: 24px;
     }
 
-    .total-top {
+    .total-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      gap: 20px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
-    .total-top small {
-      color: var(--muted);
+    .total-label {
+      font-size: 12px;
       font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--slate-500);
+      margin-bottom: 4px;
     }
 
-    .total-price {
-      margin-top: 4px;
-      font-size: clamp(34px, 5vw, 52px);
-      font-weight: 1000;
+    .total-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px, 5vw, 46px);
+      font-weight: 900;
       letter-spacing: -2px;
-      color: #020617;
+      color: var(--slate-900);
+      line-height: 1;
     }
 
-    .big-icon {
-      width: 76px;
-      height: 76px;
+    .total-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--rose-light), #ede9fe);
       display: grid;
       place-items: center;
-      border-radius: 26px;
-      background: #fce7f3;
-      font-size: 38px;
+      font-size: 30px;
       flex-shrink: 0;
     }
 
-    .summary-box {
-      display: grid;
-      gap: 12px;
-      margin-top: 20px;
-      padding: 17px;
-      border-radius: 24px;
-      background: #f8fafc;
+    .summary-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--slate-100);
     }
 
-    .summary-row {
+    .s-row {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
-      color: #64748b;
+      align-items: center;
+      padding: 11px 14px;
       font-size: 14px;
+      background: var(--slate-100);
     }
 
-    .summary-row strong {
-      color: #0f172a;
-      text-align: right;
+    .s-row:nth-child(even) { background: white; }
+
+    .s-row span { color: var(--slate-500); font-weight: 600; }
+    .s-row strong { color: var(--slate-900); font-weight: 800; }
+
+    /* ── PAYMENT CARD ── */
+    .payment-card {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
     }
 
-    .dana-card {
-      color: white;
-      background: linear-gradient(135deg, #2563eb, #4f46e5 58%, #7c3aed);
-      border: 0;
+    .payment-top {
+      background: linear-gradient(135deg, #1a56db 0%, #4f46e5 50%, #7c3aed 100%);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .dana-number {
-      margin-top: 14px;
-      padding: 18px;
-      border-radius: 24px;
-      text-align: center;
+    .payment-top::before {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      top: -80px;
+      right: -60px;
+    }
+
+    .payment-top::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      bottom: -40px;
+      left: 20px;
+    }
+
+    .payment-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .payment-header-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
     }
 
-    .dana-number small {
-      display: block;
-      color: #dbeafe;
+    .payment-header-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
       font-weight: 800;
+      color: white;
     }
 
-    .dana-number b {
+    .payment-header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 600;
+    }
+
+    /* DANA number display */
+    .dana-display {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .dana-display-left small {
       display: block;
-      margin-top: 3px;
-      font-size: 30px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 4px;
+    }
+
+    .dana-display-left b {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: white;
       letter-spacing: 1px;
     }
 
+    .dana-chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.85);
+      white-space: nowrap;
+    }
 
-    .pay-dana-button {
+    /* Payment buttons area */
+    .payment-btns {
+      background: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Main CTA button */
+    .btn-pay-now {
       width: 100%;
-      margin-top: 16px;
-      border: 0;
-      border-radius: 22px;
-      padding: 17px 16px;
-      color: #082f49;
-      background: linear-gradient(135deg, #ffffff, #dbeafe);
-      font-weight: 1000;
-      font-size: 16px;
-      letter-spacing: .2px;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 0;
       cursor: pointer;
-      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.16);
-      transition: 180ms ease;
-    }
-
-    .pay-dana-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 42px rgba(15, 23, 42, 0.22);
-    }
-
-    .pay-dana-button small {
-      display: block;
-      margin-top: 5px;
-      color: #1e40af;
-      font-size: 13px;
-      font-weight: 900;
-      opacity: .95;
-    }
-
-    .copy-dana-button {
-      width: 100%;
-      margin-top: 12px;
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 18px;
-      padding: 13px 14px;
-      color: white;
-      background: rgba(255,255,255,0.16);
-      font-weight: 1000;
-      cursor: pointer;
-      transition: 180ms ease;
-    }
-
-    .copy-dana-button:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.23);
-    }
-
-    .payment-hint {
-      margin-top: 12px;
-      padding: 13px 14px;
-      border-radius: 18px;
-      color: #e0f2fe;
-      background: rgba(255,255,255,0.12);
-      font-size: 13px;
-      line-height: 1.65;
-    }
-
-    .payment-alert {
-      display: none;
-      margin-top: 12px;
-      padding: 13px 14px;
-      border-radius: 18px;
-      color: #082f49;
-      background: #dbeafe;
-      font-size: 13px;
-      line-height: 1.6;
-      font-weight: 900;
-    }
-
-    .payment-alert.show {
-      display: block;
-      animation: popIn 260ms ease both;
-    }
-
-    .proof-box {
+      background: linear-gradient(135deg, #1a56db 0%, #4f46e5 60%, #7c3aed 100%);
+      box-shadow: 0 12px 32px rgba(79,70,229,0.35);
+      transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
       position: relative;
+    }
+
+    .btn-pay-now:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 48px rgba(79,70,229,0.4);
+    }
+
+    .btn-pay-now:active { transform: translateY(0); }
+
+    .btn-pay-now::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 50%);
+      pointer-events: none;
+    }
+
+    .btn-pay-now-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 17px 20px;
+    }
+
+    .btn-pay-now-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.2);
       display: grid;
       place-items: center;
-      gap: 8px;
-      min-height: 165px;
-      margin-top: 18px;
-      border: 2px dashed #f9a8d4;
-      border-radius: 26px;
-      background: #fff1f7;
-      text-align: center;
-      overflow: hidden;
-      cursor: pointer;
+      font-size: 18px;
+      flex-shrink: 0;
     }
 
-    .proof-box input {
+    .btn-pay-now-text {
+      text-align: left;
+    }
+
+    .btn-pay-now-title {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+
+    .btn-pay-now-sub {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-top: 1px;
+    }
+
+    /* Copy button */
+    .btn-copy {
+      width: 100%;
+      border: 2px solid var(--slate-100);
+      border-radius: var(--radius-md);
+      padding: 13px 18px;
+      cursor: pointer;
+      background: var(--slate-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--slate-700);
+      transition: all 180ms ease;
+    }
+
+    .btn-copy:hover {
+      background: white;
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+
+    /* Payment alert */
+    .payment-alert {
+      border-radius: var(--radius-md);
+      padding: 13px 15px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.6;
+      display: none;
+      animation: slideDown 220ms ease both;
+    }
+
+    .payment-alert.show { display: block; }
+
+    .payment-alert.success {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #166534;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Steps hint */
+    .pay-steps {
+      display: flex;
+      gap: 8px;
+      background: #fafafa;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      border: 1px solid var(--slate-100);
+    }
+
+    .pay-steps-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--rose);
+      flex-shrink: 0;
+    }
+
+    .step-connector {
+      width: 2px;
+      flex: 1;
+      min-height: 16px;
+      background: linear-gradient(to bottom, var(--rose), var(--violet));
+      border-radius: 999px;
+    }
+
+    .pay-steps-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--slate-500);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .pay-steps-content b { color: var(--slate-900); }
+
+    /* ── PROOF CARD ── */
+    .proof-card {
+      border-radius: var(--radius-xl);
+      background: white;
+      border: 1px solid rgba(244,63,94,0.1);
+      box-shadow: var(--shadow-card);
+      padding: 24px;
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--slate-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .proof-drop {
+      position: relative;
+      min-height: 140px;
+      border: 2px dashed rgba(244,63,94,0.3);
+      border-radius: var(--radius-lg);
+      background: var(--rose-light);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: 180ms ease;
+    }
+
+    .proof-drop:hover {
+      border-color: var(--rose);
+      background: rgba(244,63,94,0.08);
+    }
+
+    .proof-drop input {
       position: absolute;
       inset: 0;
       opacity: 0;
       cursor: pointer;
+      background: transparent;
+      border: none;
+      color: transparent;
+      padding: 0;
     }
 
-    .proof-title {
-      font-weight: 1000;
-      color: #831843;
+    .proof-placeholder {
+      text-align: center;
+      pointer-events: none;
     }
 
-    .proof-note {
-      color: #64748b;
-      font-size: 13px;
+    .proof-placeholder-icon { font-size: 32px; margin-bottom: 8px; }
+
+    .proof-placeholder-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--rose-dark);
+      margin-bottom: 4px;
+    }
+
+    .proof-placeholder-note {
+      font-size: 12px;
+      color: var(--slate-500);
     }
 
     #proofPreview {
       max-width: 100%;
-      max-height: 185px;
-      display: none;
-      border-radius: 18px;
+      max-height: 200px;
+      border-radius: 14px;
       object-fit: cover;
+      display: none;
     }
 
-    .button-row {
+    /* Buttons row */
+    .btns-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 16px;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-top: 14px;
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: 0;
-      border-radius: 18px;
-      padding: 14px 16px;
-      font-weight: 1000;
-      text-decoration: none;
+    .btn-submit {
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 15px 20px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 900;
       cursor: pointer;
-      transition: 180ms ease;
-      font-size: 14px;
+      transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: linear-gradient(135deg, var(--rose), var(--violet));
+      color: white;
+      box-shadow: var(--shadow-btn);
     }
 
-    .btn:hover {
+    .btn-submit:hover {
       transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(244,63,94,0.32);
     }
 
-    .btn-primary {
-      color: white;
-      background: linear-gradient(135deg, var(--pink), var(--purple));
-      box-shadow: 0 14px 34px rgba(236, 72, 153, 0.25);
+    .btn-submit:disabled {
+      opacity: 0.7;
+      transform: none;
+      cursor: not-allowed;
     }
 
-    .btn-secondary {
-      color: #0f172a;
-      background: #e2e8f0;
-    }
-
-    .final-summary {
-      margin-top: 18px;
-      border-radius: 24px;
-      padding: 18px;
-      background: #0f172a;
-      color: white;
-    }
-
-    .final-summary h3 {
-      margin-bottom: 12px;
-      font-size: 18px;
-    }
-
-    .final-summary p {
-      color: #cbd5e1;
-      line-height: 1.85;
+    .btn-print {
+      border: 2px solid var(--slate-100);
+      border-radius: var(--radius-md);
+      padding: 15px 16px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      background: var(--slate-100);
+      color: var(--slate-700);
+      transition: 180ms ease;
+      white-space: nowrap;
     }
 
-    .final-summary b {
-      color: white;
+    .btn-print:hover {
+      background: white;
+      border-color: var(--slate-300);
     }
 
-    .status-text {
-      margin-top: 12px;
-      min-height: 22px;
-      color: #64748b;
+    .status-msg {
+      margin-top: 10px;
       font-size: 13px;
+      font-weight: 700;
+      color: var(--slate-500);
+      min-height: 20px;
       line-height: 1.5;
     }
 
-    .status-text.error {
-      color: #be123c;
-      font-weight: 900;
+    .status-msg.error { color: #be123c; }
+    .status-msg.loading { color: var(--violet); }
+
+    /* ── ORDER SUMMARY ── */
+    .order-summary-card {
+      border-radius: var(--radius-xl);
+      background: var(--slate-900);
+      padding: 24px;
+      margin-top: 16px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .status-text.loading {
-      color: #7c3aed;
-      font-weight: 900;
+    .order-summary-card::before {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244,63,94,0.15), transparent 70%);
+      bottom: -80px;
+      right: -60px;
+      pointer-events: none;
     }
 
-    .success-card {
-      display: none;
-      margin-top: 18px;
-      border-radius: 26px;
-      padding: 22px;
+    .os-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
       color: white;
-      background: linear-gradient(135deg, #16a34a, #059669);
-      box-shadow: 0 18px 45px rgba(22, 163, 74, 0.22);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .success-card.show {
-      display: block;
-      animation: popIn 260ms ease both;
+    .os-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .success-card h3 {
-      font-size: 23px;
-      margin-bottom: 8px;
+    .os-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13.5px;
     }
 
-    .success-card p {
-      color: #dcfce7;
-      line-height: 1.7;
-      font-size: 14px;
+    .os-row span { color: rgba(255,255,255,0.45); font-weight: 600; }
+    .os-row strong { color: white; font-weight: 800; text-align: right; }
+
+    .os-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 8px 0;
     }
 
-    @keyframes popIn {
-      from { opacity: 0; transform: translateY(12px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
+    /* ── FOOTER ── */
     .footer {
-      margin-top: 20px;
       text-align: center;
-      color: #64748b;
-      font-size: 14px;
+      color: var(--slate-500);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 28px;
     }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .hero-inner {
+      .hero {
         grid-template-columns: 1fr;
-        padding: 22px;
+      }
+
+      .right-col {
+        position: static;
       }
 
       .service-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
       }
 
-      .form-grid,
-      .button-row {
+      .form-grid {
         grid-template-columns: 1fr;
       }
 
       h1 {
+        font-size: clamp(40px, 11vw, 64px);
         letter-spacing: -2px;
       }
     }
+
+    @media (max-width: 560px) {
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-badge { display: none; }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Pulse animation for DANA button */
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 12px 32px rgba(79,70,229,0.35); }
+      50% { box-shadow: 0 12px 40px rgba(79,70,229,0.55), 0 0 0 6px rgba(79,70,229,0.1); }
+    }
+
+    .btn-pay-now { animation: pulse-glow 2.5s ease-in-out infinite; }
+    .btn-pay-now:hover { animation: none; }
   </style>
 </head>
 <body>
@@ -607,303 +951,325 @@
     <input type="hidden" name="Harga_per_Kg" id="fsHarga" />
     <input type="hidden" name="Berat" id="fsBerat" />
     <input type="hidden" name="Total_Pembayaran" id="fsTotal" />
-    <input type="hidden" name="Metode_Pembayaran" id="fsMetodePembayaran" value="DANA Manual - Nomor Admin Disalin" />
-    <input type="hidden" name="Nomor_DANA" id="fsDana" value="083119879961" />
+    <input type="hidden" name="Metode_Pembayaran" value="DANA Manual" />
+    <input type="hidden" name="Nomor_DANA" value="083119879961" />
     <input type="hidden" name="Catatan" id="fsCatatan" />
     <input type="hidden" name="Ringkasan" id="fsRingkasan" />
-  <main class="page">
-    <section class="hero">
-      <div class="hero-inner">
-        <div>
-          <div class="badge">✨ Bersih • Wangi • Rapi</div>
-          <h1>PUTRI <span>LAUNDRY</span></h1>
-          <div class="address">📍 <p><b>Alamat:</b> Timpik, Susukan, Semarang</p></div>
 
+  <main class="page">
+
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav-brand">
+        <div class="nav-logo">🧺</div>
+        <div class="nav-title">PUTRI <span>LAUNDRY</span></div>
+      </div>
+      <div class="nav-badge">✨ Bersih · Wangi · Rapi</div>
+    </nav>
+
+    <!-- HERO GRID -->
+    <div class="hero">
+
+      <!-- LEFT -->
+      <div class="left-col">
+        <div class="hero-card">
+          <div class="tagline">🌸 Laundry Terpercaya Susukan</div>
+          <h1>PUTRI<br><em>LAUNDRY</em></h1>
+          <div class="location-pill">📍 Timpik, Susukan, Semarang</div>
+
+          <div class="section-label">Pilih Layanan</div>
           <div class="service-grid" id="serviceGrid"></div>
 
-          <div class="panel dark-panel">
-            <div class="panel-title">🧾 Form Pesanan</div>
+          <div class="form-card">
+            <div class="form-card-title">🧾 Detail Pesanan</div>
             <div class="form-grid">
-              <label>
-                Nama pelanggan
+              <div class="field">
+                <label>Nama Pelanggan</label>
                 <input id="customerName" type="text" placeholder="Contoh: Budi" />
-              </label>
-              <label>
-                Nomor HP
-                <input id="customerPhone" type="tel" placeholder="Contoh: 08xxxxxxxxxx" />
-              </label>
-              <label>
-                Berat laundry / kg
+              </div>
+              <div class="field">
+                <label>Nomor HP</label>
+                <input id="customerPhone" type="tel" placeholder="08xxxxxxxxxx" />
+              </div>
+              <div class="field">
+                <label>Berat (kg)</label>
                 <input id="weightInput" type="number" min="0" step="0.1" value="1" />
-              </label>
-              <label>
-                Catatan
-                <input id="noteInput" type="text" placeholder="Contoh: jangan pakai pewangi kuat" />
-              </label>
+              </div>
+              <div class="field">
+                <label>Catatan</label>
+                <input id="noteInput" type="text" placeholder="Misal: jangan pewangi kuat" />
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="right-col">
-          <div class="panel total-card">
-            <div class="total-top">
-              <div>
-                <small>Total pembayaran</small>
-                <div class="total-price" id="totalPrice">Rp100</div>
-              </div>
-              <div class="big-icon" id="selectedIcon">👕</div>
-            </div>
-            <div class="summary-box">
-              <div class="summary-row"><span>Layanan</span><strong id="summaryService">Laundry Pakaian</strong></div>
-              <div class="summary-row"><span>Harga</span><strong id="summaryPrice">Rp25 / kg</strong></div>
-              <div class="summary-row"><span>Berat</span><strong id="summaryWeight">1 kg</strong></div>
-            </div>
-          </div>
-
-          <div class="panel dana-card">
-            <div class="panel-title">💳 Payment DANA</div>
-            <p style="margin-top: 10px; color: #dbeafe; line-height: 1.6;">Klik tombol di bawah. Nomor DANA admin akan disalin, lalu pelanggan bisa membuka aplikasi DANA dan membayar manual.</p>
-            <div class="dana-number">
-              <small>Nomor DANA Admin PUTRI LAUNDRY</small>
-              <b id="adminDanaDisplay">083119879961</b>
-            </div>
-            <button class="pay-dana-button" id="payDanaButton" type="button">💙 BAYAR SEKARANG<small>Nomor admin otomatis disalin</small></button>
-            <button class="copy-dana-button" id="copyDanaButton" type="button">📋 Salin Nomor DANA Admin</button>
-            <div class="payment-alert" id="paymentAlert">Nomor DANA admin sudah disalin. Jika aplikasi DANA tidak terbuka otomatis, buka aplikasi DANA secara manual, pilih Kirim/Transfer, lalu tempel nomor admin.</div>
-            <div class="payment-hint">Alur bayar: klik <b>BAYAR SEKARANG</b> → nomor admin tersalin → buka DANA → pilih Kirim/Transfer → tempel nomor admin → masukkan nominal sesuai total → screenshot bukti → kembali ke web ini.</div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-title">📤 Bukti Pembayaran</div>
-            <label class="proof-box">
-              <img id="proofPreview" alt="Preview bukti pembayaran" />
-              <div id="proofText">
-                <div class="proof-title">Upload bukti pembayaran</div>
-                <div class="proof-note">Pilih gambar JPG, PNG, atau JPEG maksimal 10 MB</div>
-              </div>
-              <input id="proofInput" name="attachment" type="file" accept="image/png, image/jpeg, image/jpg, image/webp" />
-            </label>
-
-            <div class="button-row">
-              <button class="btn btn-primary" id="finishButton" type="submit">Selesai</button>
-              <button class="btn btn-secondary" onclick="window.print()" type="button">Cetak Struk</button>
-            </div>
-            <div class="status-text" id="submitStatus"></div>
-
-            <div class="success-card" id="successCard">
-              <h3>✅ Terima kasih telah percaya pada kami</h3>
-              <p>Pesanan kamu sudah dikirim ke admin PUTRI LAUNDRY. Bukti pembayaran akan dicek, lalu laundry segera diproses.</p>
-            </div>
-          </div>
-
-          <div class="final-summary">
-            <h3>Ringkasan Order</h3>
-            <p id="orderSummary"></p>
+        <!-- Order Summary (mobile shows here) -->
+        <div class="order-summary-card">
+          <div class="os-title">📋 Ringkasan Pesanan</div>
+          <div class="os-rows" id="osRows">
+            <div class="os-row"><span>Nama</span><strong id="osNama">-</strong></div>
+            <div class="os-row"><span>Nomor HP</span><strong id="osHp">-</strong></div>
+            <div class="os-row"><span>Layanan</span><strong id="osLayanan">-</strong></div>
+            <div class="os-row"><span>Berat</span><strong id="osBerat">-</strong></div>
+            <div class="os-divider"></div>
+            <div class="os-row"><span>Total</span><strong id="osTotal" style="color:#f43f5e; font-size:16px;">-</strong></div>
+            <div class="os-row"><span>Metode Bayar</span><strong>DANA Manual</strong></div>
+            <div class="os-row"><span>Nomor DANA</span><strong>083119879961</strong></div>
+            <div class="os-row"><span>Catatan</span><strong id="osCatatan">-</strong></div>
           </div>
         </div>
       </div>
-    </section>
 
-    <p class="footer">© <span id="year"></span> PUTRI LAUNDRY • Timpik, Susukan, Semarang</p>
+      <!-- RIGHT -->
+      <div class="right-col">
+
+        <!-- Total -->
+        <div class="total-card">
+          <div class="total-header">
+            <div>
+              <div class="total-label">Total Pembayaran</div>
+              <div class="total-amount" id="totalPrice">Rp 0</div>
+            </div>
+            <div class="total-icon" id="selectedIcon">👕</div>
+          </div>
+          <div class="summary-rows">
+            <div class="s-row"><span>Layanan</span><strong id="summaryService">-</strong></div>
+            <div class="s-row"><span>Harga</span><strong id="summaryPrice">-</strong></div>
+            <div class="s-row"><span>Berat</span><strong id="summaryWeight">-</strong></div>
+          </div>
+        </div>
+
+        <!-- Payment DANA -->
+        <div class="payment-card">
+          <div class="payment-top">
+            <div class="payment-header">
+              <div class="payment-header-icon">💙</div>
+              <div>
+                <div class="payment-header-text">Bayar via DANA</div>
+                <div class="payment-header-sub">Transfer manual ke nomor admin</div>
+              </div>
+            </div>
+            <div class="dana-display">
+              <div class="dana-display-left">
+                <small>Nomor DANA Admin</small>
+                <b>0831-1987-9961</b>
+              </div>
+              <div class="dana-chip">PUTRI LAUNDRY</div>
+            </div>
+          </div>
+
+          <div class="payment-btns">
+
+            <!-- BAYAR SEKARANG -->
+            <button class="btn-pay-now" id="payDanaButton" type="button">
+              <div class="btn-pay-now-inner">
+                <div class="btn-pay-now-icon">💙</div>
+                <div class="btn-pay-now-text">
+                  <span class="btn-pay-now-title">BAYAR SEKARANG</span>
+                  <span class="btn-pay-now-sub">Nomor tersalin · Buka DANA otomatis</span>
+                </div>
+              </div>
+            </button>
+
+            <!-- Salin Nomor -->
+            <button class="btn-copy" id="copyDanaButton" type="button">
+              <span id="copyIcon">📋</span>
+              <span id="copyText">Salin Nomor Admin</span>
+            </button>
+
+            <!-- Alert -->
+            <div class="payment-alert" id="paymentAlert"></div>
+
+            <!-- Steps hint -->
+            <div class="pay-steps">
+              <div class="pay-steps-line">
+                <div class="step-dot"></div>
+                <div class="step-connector"></div>
+                <div class="step-dot" style="background:var(--violet)"></div>
+                <div class="step-connector"></div>
+                <div class="step-dot" style="background:#22c55e"></div>
+              </div>
+              <div class="pay-steps-content">
+                <div>Klik <b>BAYAR SEKARANG</b> → nomor tersalin & DANA terbuka</div>
+                <div>Pilih <b>Kirim/Transfer</b> → tempel nomor → masukkan nominal</div>
+                <div>Screenshot bukti → upload di bawah → klik <b>Selesai</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bukti & Submit -->
+        <div class="proof-card">
+          <div class="card-title">📤 Bukti Pembayaran</div>
+
+          <label class="proof-drop" id="proofDrop">
+            <img id="proofPreview" alt="Preview bukti" />
+            <div class="proof-placeholder" id="proofText">
+              <div class="proof-placeholder-icon">🖼️</div>
+              <div class="proof-placeholder-title">Upload Bukti Pembayaran</div>
+              <div class="proof-placeholder-note">JPG / PNG / WEBP · Maks 10 MB</div>
+            </div>
+            <input id="proofInput" name="attachment" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" />
+          </label>
+
+          <div class="btns-row">
+            <button class="btn-submit" id="finishButton" type="submit">✓ Selesai &amp; Kirim</button>
+            <button class="btn-print" onclick="window.print()" type="button">🖨️ Cetak</button>
+          </div>
+
+          <div class="status-msg" id="submitStatus"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="footer">© <span id="year"></span> PUTRI LAUNDRY · Timpik, Susukan, Semarang</p>
   </main>
   </form>
+
   <script>
-    const services = [
-      { id: "karpet", name: "Laundry Karpet", price: 100, icon: "🧺" },
-      { id: "selimut", name: "Laundry Selimut", price: 50, icon: "🛏️" },
-      { id: "pakaian", name: "Laundry Pakaian", price: 25, icon: "👕" },
+    const SERVICES = [
+      { id: "karpet",  name: "Laundry Karpet",  price: 100, icon: "🧺" },
+      { id: "selimut", name: "Laundry Selimut",  price: 50,  icon: "🛏️" },
+      { id: "pakaian", name: "Laundry Pakaian",  price: 25,  icon: "👕" },
     ];
 
-    const danaNumber = "083119879961";
-    const adminEmail = "pukisala9@gmail.com";
-    let selectedServiceId = "pakaian";
+    const DANA_NUMBER = "083119879961";
+    let selectedId = "pakaian";
     let proofFileName = "Belum diupload";
-    let lastOrderCode = "";
 
-    const serviceGrid = document.getElementById("serviceGrid");
-    const weightInput = document.getElementById("weightInput");
-    const customerName = document.getElementById("customerName");
-    const customerPhone = document.getElementById("customerPhone");
-    const noteInput = document.getElementById("noteInput");
-    const payDanaButton = document.getElementById("payDanaButton");
-    const copyDanaButton = document.getElementById("copyDanaButton");
-    const paymentAlert = document.getElementById("paymentAlert");
-    const totalPrice = document.getElementById("totalPrice");
-    const selectedIcon = document.getElementById("selectedIcon");
-    const summaryService = document.getElementById("summaryService");
-    const summaryPrice = document.getElementById("summaryPrice");
-    const summaryWeight = document.getElementById("summaryWeight");
-    const orderSummary = document.getElementById("orderSummary");
-    const proofInput = document.getElementById("proofInput");
-    const proofPreview = document.getElementById("proofPreview");
-    const proofText = document.getElementById("proofText");
-    const finishButton = document.getElementById("finishButton");
-    const submitStatus = document.getElementById("submitStatus");
-    const fsNext = document.getElementById("fsNext");
-    const successCard = document.getElementById("successCard");
-    const orderForm = document.getElementById("orderForm");
-    const fsSubject = document.getElementById("fsSubject");
-    const fsKodeOrder = document.getElementById("fsKodeOrder");
-    const fsNamaPelanggan = document.getElementById("fsNamaPelanggan");
-    const fsNomorHp = document.getElementById("fsNomorHp");
-    const fsLayanan = document.getElementById("fsLayanan");
-    const fsHarga = document.getElementById("fsHarga");
-    const fsBerat = document.getElementById("fsBerat");
-    const fsTotal = document.getElementById("fsTotal");
-    const fsCatatan = document.getElementById("fsCatatan");
-    const fsRingkasan = document.getElementById("fsRingkasan");
+    // refs
+    const $ = id => document.getElementById(id);
+    const serviceGrid  = $("serviceGrid");
+    const weightInput  = $("weightInput");
+    const customerName = $("customerName");
+    const customerPhone= $("customerPhone");
+    const noteInput    = $("noteInput");
+    const payDanaBtn   = $("payDanaButton");
+    const copyDanaBtn  = $("copyDanaButton");
+    const paymentAlert = $("paymentAlert");
+    const totalPrice   = $("totalPrice");
+    const selectedIcon = $("selectedIcon");
+    const summaryService= $("summaryService");
+    const summaryPrice = $("summaryPrice");
+    const summaryWeight= $("summaryWeight");
+    const proofInput   = $("proofInput");
+    const proofPreview = $("proofPreview");
+    const proofText    = $("proofText");
+    const finishButton = $("finishButton");
+    const submitStatus = $("submitStatus");
+    const orderForm    = $("orderForm");
+    const copyIcon     = $("copyIcon");
+    const copyText     = $("copyText");
 
-    function formatRupiah(value) {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-      }).format(value);
+    function fmt(v) {
+      return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(v);
     }
 
-    function selectedService() {
-      return services.find((service) => service.id === selectedServiceId);
-    }
+    function getService() { return SERVICES.find(s => s.id === selectedId); }
 
-    function createOrderCode() {
-      const now = new Date();
-      const stamp = now.getFullYear().toString()
-        + String(now.getMonth() + 1).padStart(2, "0")
-        + String(now.getDate()).padStart(2, "0")
-        + "-"
-        + String(now.getHours()).padStart(2, "0")
-        + String(now.getMinutes()).padStart(2, "0")
-        + String(now.getSeconds()).padStart(2, "0");
-      return `PL-${stamp}`;
+    function makeOrderCode() {
+      const n = new Date();
+      return `PL-${n.getFullYear()}${String(n.getMonth()+1).padStart(2,"0")}${String(n.getDate()).padStart(2,"0")}-${String(n.getHours()).padStart(2,"0")}${String(n.getMinutes()).padStart(2,"0")}${String(n.getSeconds()).padStart(2,"0")}`;
     }
 
     function renderServices() {
-      serviceGrid.innerHTML = services.map(service => `
-        <button class="service-card ${service.id === selectedServiceId ? "active" : ""}" onclick="chooseService('${service.id}')" type="button">
-          <div class="service-icon">${service.icon}</div>
-          <h3>${service.name}</h3>
-          <p>${formatRupiah(service.price)} / kg</p>
+      serviceGrid.innerHTML = SERVICES.map(s => `
+        <button class="service-card ${s.id === selectedId ? "active" : ""}" onclick="chooseService('${s.id}')" type="button">
+          <span class="svc-icon">${s.icon}</span>
+          <div class="svc-name">${s.name}</div>
+          <div class="svc-price">${fmt(s.price)} / kg</div>
         </button>
       `).join("");
     }
 
     function chooseService(id) {
-      selectedServiceId = id;
+      selectedId = id;
       renderServices();
       updateOrder();
     }
 
-    function getOrderData() {
-      const service = selectedService();
-      const weight = Number(weightInput.value) || 0;
-      const total = weight * service.price;
-      const name = customerName.value.trim();
-      const phone = customerPhone.value.trim();
-      const note = noteInput.value.trim();
-
-      return {
-        service,
-        weight,
-        total,
-        name,
-        phone,
-        note,
-        proofFile: proofInput.files && proofInput.files[0] ? proofInput.files[0] : null,
-      };
-    }
-
     function updateOrder() {
-      const data = getOrderData();
-      const displayName = data.name || "-";
-      const displayPhone = data.phone || "-";
-      const displayNote = data.note || "-";
+      const svc    = getService();
+      const weight = Number(weightInput.value) || 0;
+      const total  = weight * svc.price;
+      const name   = customerName.value.trim() || "-";
+      const phone  = customerPhone.value.trim() || "-";
+      const note   = noteInput.value.trim() || "-";
 
-      totalPrice.textContent = formatRupiah(data.total);
-      selectedIcon.textContent = data.service.icon;
-      summaryService.textContent = data.service.name;
-      summaryPrice.textContent = `${formatRupiah(data.service.price)} / kg`;
-      summaryWeight.textContent = `${data.weight} kg`;
+      totalPrice.textContent   = fmt(total);
+      selectedIcon.textContent = svc.icon;
+      summaryService.textContent = svc.name;
+      summaryPrice.textContent   = `${fmt(svc.price)} / kg`;
+      summaryWeight.textContent  = `${weight} kg`;
 
-      orderSummary.innerHTML = `
-        Nama: <b>${displayName}</b><br>
-        Nomor HP: <b>${displayPhone}</b><br>
-        Layanan: <b>${data.service.name}</b><br>
-        Berat: <b>${data.weight} kg</b><br>
-        Total: <b>${formatRupiah(data.total)}</b><br>
-        Metode bayar: <b>DANA Manual</b><br>
-        DANA Admin: <b>${danaNumber}</b><br>
-        Bukti bayar: <b>${proofFileName}</b><br>
-        Catatan: <b>${displayNote}</b>
-      `;
+      // update ringkasan bawah
+      $("osNama").textContent    = name;
+      $("osHp").textContent      = phone;
+      $("osLayanan").textContent = svc.name;
+      $("osBerat").textContent   = `${weight} kg`;
+      $("osTotal").textContent   = fmt(total);
+      $("osCatatan").textContent = note;
     }
 
-    function setStatus(message, type = "") {
-      submitStatus.textContent = message;
-      submitStatus.className = `status-text ${type}`.trim();
+    function showAlert(msg, type = "") {
+      paymentAlert.textContent = msg;
+      paymentAlert.className = "payment-alert show" + (type ? " " + type : "");
+      clearTimeout(showAlert._t);
+      showAlert._t = setTimeout(() => paymentAlert.classList.remove("show"), 7000);
     }
 
-    function validateOrder(data) {
-      if (!data.name) return "Nama pelanggan wajib diisi.";
-      if (!data.phone) return "Nomor HP wajib diisi.";
-      if (data.weight <= 0) return "Berat laundry harus lebih dari 0 kg.";
-      if (!data.proofFile) return "Bukti pembayaran wajib diupload.";
-      if (data.proofFile.size > 10 * 1024 * 1024) return "Ukuran bukti pembayaran maksimal 10 MB.";
-      return "";
+    async function copyNumber() {
+      try {
+        await navigator.clipboard.writeText(DANA_NUMBER);
+        return true;
+      } catch {
+        return false;
+      }
     }
 
-    function submitOrder(event) {
-      const data = getOrderData();
-      const validationError = validateOrder(data);
+    // ── BAYAR SEKARANG ──
+    payDanaBtn.addEventListener("click", async function () {
+      // 1. Salin nomor
+      const copied = await copyNumber();
 
-      successCard.classList.remove("show");
-
-      if (validationError) {
-        event.preventDefault();
-        setStatus(validationError, "error");
-        return;
+      // 2. Feedback UI
+      if (copied) {
+        showAlert("✅ Nomor DANA admin sudah tersalin! Jika aplikasi DANA tidak terbuka otomatis, buka DANA → Kirim/Transfer → tempel nomor.", "success");
+      } else {
+        showAlert("⚠️ Tidak bisa salin otomatis. Salin manual: " + DANA_NUMBER + " · Lalu buka aplikasi DANA dan transfer.", "");
       }
 
-      const orderCode = createOrderCode();
-      lastOrderCode = orderCode;
-      const message = [
-        `Kode Order: ${orderCode}`,
-        `Nama: ${data.name}`,
-        `Nomor HP: ${data.phone}`,
-        `Layanan: ${data.service.name}`,
-        `Harga: ${formatRupiah(data.service.price)} / kg`,
-        `Berat: ${data.weight} kg`,
-        `Total: ${formatRupiah(data.total)}`,
-        `Metode Pembayaran: DANA Manual`,
-        `DANA Admin: ${danaNumber}`,
-        `Bukti bayar: ${proofFileName}`,
-        `Catatan: ${data.note || "-"}`,
-      ].join("\n");
+      // 3. Buka DANA (deeplink)
+      window.location.href = "dana://";
+    });
 
-      fsSubject.value = `Pesanan Baru PUTRI LAUNDRY - ${orderCode}`;
-      fsKodeOrder.value = orderCode;
-      fsNamaPelanggan.value = data.name;
-      fsNomorHp.value = data.phone;
-      fsLayanan.value = data.service.name;
-      fsHarga.value = `${formatRupiah(data.service.price)} / kg`;
-      fsBerat.value = `${data.weight} kg`;
-      fsTotal.value = formatRupiah(data.total);
-      fsCatatan.value = data.note || "-";
-      fsRingkasan.value = message;
-      fsNext.value = new URL("terimakasih.html", window.location.href).href;
+    // ── SALIN NOMOR SAJA ──
+    copyDanaBtn.addEventListener("click", async function () {
+      const copied = await copyNumber();
+      if (copied) {
+        copyIcon.textContent = "✅";
+        copyText.textContent = "Nomor berhasil disalin!";
+        showAlert("✅ Nomor DANA admin tersalin: " + DANA_NUMBER + " · Buka aplikasi DANA, pilih Kirim/Transfer, tempel nomor.", "success");
+      } else {
+        copyIcon.textContent = "⚠️";
+        copyText.textContent = DANA_NUMBER;
+        showAlert("Browser tidak mengizinkan salin otomatis. Catat nomor ini secara manual: " + DANA_NUMBER, "");
+      }
+      setTimeout(() => {
+        copyIcon.textContent = "📋";
+        copyText.textContent = "Salin Nomor Admin";
+      }, 2500);
+    });
 
-      finishButton.disabled = true;
-      finishButton.textContent = "Mengirim...";
-      setStatus("Sedang mengirim pesanan dan bukti pembayaran ke email admin. Jangan tutup halaman ini sampai kembali ke website PUTRI LAUNDRY.", "loading");
-    }
-
+    // ── BUKTI UPLOAD ──
     proofInput.addEventListener("change", function () {
-      const file = this.files && this.files[0];
+      const file = this.files?.[0];
       if (!file) return;
-
       proofFileName = file.name;
       const reader = new FileReader();
-      reader.onload = function (event) {
-        proofPreview.src = event.target.result;
+      reader.onload = e => {
+        proofPreview.src = e.target.result;
         proofPreview.style.display = "block";
         proofText.style.display = "none";
       };
@@ -911,58 +1277,78 @@
       updateOrder();
     });
 
-    [weightInput, customerName, customerPhone, noteInput].forEach(input => {
-      input.addEventListener("input", updateOrder);
+    // ── INPUT LISTENERS ──
+    [weightInput, customerName, customerPhone, noteInput].forEach(el => {
+      el.addEventListener("input", updateOrder);
     });
 
+    // ── SUBMIT ──
+    function setStatus(msg, type = "") {
+      submitStatus.textContent = msg;
+      submitStatus.className = "status-msg" + (type ? " " + type : "");
+    }
 
-    async function copyDanaNumber() {
-      try {
-        await navigator.clipboard.writeText(danaNumber);
-        return true;
-      } catch (error) {
-        return false;
+    function validate() {
+      const name   = customerName.value.trim();
+      const phone  = customerPhone.value.trim();
+      const weight = Number(weightInput.value);
+      const file   = proofInput.files?.[0];
+      if (!name)   return "Nama pelanggan wajib diisi.";
+      if (!phone)  return "Nomor HP wajib diisi.";
+      if (weight <= 0) return "Berat laundry harus lebih dari 0 kg.";
+      if (!file)   return "Bukti pembayaran wajib diupload.";
+      if (file.size > 10 * 1024 * 1024) return "Ukuran bukti maksimal 10 MB.";
+      return "";
+    }
+
+    orderForm.addEventListener("submit", function (e) {
+      const err = validate();
+      if (err) {
+        e.preventDefault();
+        setStatus(err, "error");
+        return;
       }
-    }
 
-    function showPaymentAlert(text) {
-      paymentAlert.textContent = text;
-      paymentAlert.classList.add("show");
-      setTimeout(() => paymentAlert.classList.remove("show"), 6000);
-    }
+      const svc    = getService();
+      const weight = Number(weightInput.value);
+      const total  = weight * svc.price;
+      const name   = customerName.value.trim();
+      const phone  = customerPhone.value.trim();
+      const note   = noteInput.value.trim() || "-";
+      const code   = makeOrderCode();
 
-    copyDanaButton.addEventListener("click", async function () {
-      const copied = await copyDanaNumber();
-      copyDanaButton.textContent = copied ? "✅ Nomor DANA berhasil disalin" : "Nomor DANA: " + danaNumber;
-      showPaymentAlert(copied
-        ? "Nomor DANA admin sudah disalin. Buka aplikasi DANA, pilih Kirim/Transfer, lalu tempel nomor admin."
-        : "Browser tidak mengizinkan salin otomatis. Salin nomor ini secara manual: " + danaNumber
-      );
-      setTimeout(() => {
-        copyDanaButton.textContent = "📋 Salin Nomor DANA Admin";
-      }, 1800);
+      const msg = [
+        `Kode Order: ${code}`,
+        `Nama: ${name}`,
+        `Nomor HP: ${phone}`,
+        `Layanan: ${svc.name}`,
+        `Harga: ${fmt(svc.price)} / kg`,
+        `Berat: ${weight} kg`,
+        `Total: ${fmt(total)}`,
+        `Metode: DANA Manual`,
+        `DANA Admin: ${DANA_NUMBER}`,
+        `Bukti: ${proofFileName}`,
+        `Catatan: ${note}`,
+      ].join("\n");
+
+      $("fsSubject").value       = `Pesanan Baru PUTRI LAUNDRY - ${code}`;
+      $("fsKodeOrder").value     = code;
+      $("fsNamaPelanggan").value = name;
+      $("fsNomorHp").value       = phone;
+      $("fsLayanan").value       = svc.name;
+      $("fsHarga").value         = `${fmt(svc.price)} / kg`;
+      $("fsBerat").value         = `${weight} kg`;
+      $("fsTotal").value         = fmt(total);
+      $("fsCatatan").value       = note;
+      $("fsRingkasan").value     = msg;
+      $("fsNext").value          = new URL("terimakasih.html", window.location.href).href;
+
+      finishButton.disabled      = true;
+      finishButton.textContent   = "Mengirim...";
+      setStatus("Mengirim pesanan ke email admin. Jangan tutup halaman ini...", "loading");
     });
 
-    payDanaButton.addEventListener("click", async function () {
-      const copied = await copyDanaNumber();
-      payDanaButton.innerHTML = copied
-        ? "✅ Nomor admin disalin<small>Buka DANA, tempel nomor admin, lalu bayar</small>"
-        : "💙 BUKA DANA<small>Salin manual nomor admin: " + danaNumber + "</small>";
-      showPaymentAlert("Nomor admin " + (copied ? "sudah disalin" : "bisa disalin manual") + ". Jika aplikasi DANA tidak otomatis terbuka, buka DANA dari layar HP, pilih Kirim/Transfer, lalu tempel nomor admin.");
-
-      /* Tidak memakai fallback Google Play agar tidak nyasar ke Play Store. */
-      setTimeout(() => {
-        window.location.href = "dana://";
-      }, 120);
-
-      setTimeout(() => {
-        payDanaButton.innerHTML = "💙 BAYAR SEKARANG<small>Nomor admin otomatis disalin</small>";
-      }, 2600);
-    });
-
-
-    orderForm.addEventListener("submit", submitOrder);
-    document.getElementById("year").textContent = new Date().getFullYear();
+    $("year").textContent = new Date().getFullYear();
     renderServices();
     updateOrder();
   </script>
