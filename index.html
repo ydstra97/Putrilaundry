@@ -351,35 +351,29 @@
       background: rgba(255,255,255,0.11);
       border: 1px solid rgba(255,255,255,0.16);
       border-radius: var(--r-lg);
-      padding: 13px 16px;
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 10px;
+      padding: 14px 16px;
+      display: block;
     }
 
     .dana-lbl {
       font-size: 10px; font-weight: 700;
       letter-spacing: 1px; text-transform: uppercase;
-      color: rgba(255,255,255,0.45); margin-bottom: 4px;
+      color: rgba(255,255,255,0.5); margin-bottom: 6px;
     }
 
     .dana-val {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(14px, 4.5vw, 22px);
+      font-size: clamp(20px, 5.5vw, 28px);
       font-weight: 900;
       color: white;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
     }
 
-    .dana-badge {
-      padding: 5px 10px; border-radius: 999px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.18);
-      font-size: 10px; font-weight: 800;
-      color: rgba(255,255,255,0.82);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
+    .dana-badge { display: none; }
 
     .pay-btns {
       background: white;
@@ -841,11 +835,8 @@
               </div>
             </div>
             <div class="dana-box">
-              <div>
-                <div class="dana-lbl">Nomor DANA Admin</div>
-                <div class="dana-val">0831-1987-9961</div>
-              </div>
-              <div class="dana-badge">PUTRI LAUNDRY</div>
+              <div class="dana-lbl">Nomor DANA · PUTRI LAUNDRY</div>
+              <div class="dana-val">0831-1987-9961</div>
             </div>
           </div>
 
